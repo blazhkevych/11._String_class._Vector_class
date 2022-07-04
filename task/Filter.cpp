@@ -76,20 +76,20 @@ void Filter::ReadFile()
 		perror("Error opening");
 		return;
 	}
-	int lines{ 10 }; // Количество считываемыъ строк.
+	int lines{ 50 }; // Количество считываемыъ строк.
 	string fiftyLines{ "" };
 	char buffer[300]{};
 	while (!feof(f_read))
 	{
 		while (lines)
 		{
-
 			fgets(buffer, 300, f_read);
 			if (feof(f_read))
 				break;
 			fiftyLines += buffer;
 			lines--;
 		}
+		lines = 50;
 		m_vector.Add(fiftyLines);
 		fiftyLines.clear();
 	}

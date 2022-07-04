@@ -93,4 +93,7 @@ int main()
 	Filter filter;
 	filter.ReadFile();
 	cout << filter;
+
+
+
 }
