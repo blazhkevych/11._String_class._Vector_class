@@ -391,7 +391,7 @@ template<typename T>
 ostream& operator<<(ostream& cout, Vector<T>& v)
 {
 	cout << endl;
-	v.Print();
+	v.PrintScreen();
 	return cout;
 }
 
@@ -438,7 +438,6 @@ void Vector<T>::Add(const T& item)
 	T* p = new T[++m_size];
 	if (m_vect != nullptr)
 	{
-
 		for (int i = 0; i < m_size - 1; i++)
 			p[i] = m_vect[i];
 		p[m_size - 1] = item;
