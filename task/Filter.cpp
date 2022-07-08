@@ -112,7 +112,7 @@ void Filter::f_FilterLatin(string& str)
 }
 
 // Заменяет символ кириллицы на пробел.
-void Filter::f_FilterCyrillic(char *filterPage)
+void Filter::f_FilterCyrillic(string& str)
 {
 	//возможно в булевские передавать не весь стринг, а только str[i] и в случае возврата тру
 	for (int i = 0; i < str.length(); i++)
@@ -123,7 +123,7 @@ void Filter::f_FilterCyrillic(char *filterPage)
 }
 
 // Обрабатывает нажатые клавиши прокрутки ввер или вниз.
-void Filter::f_KeyPressed(int keyPressed)
+void Filter::KeyPressed(int keyPressed)
 {
 	if (keyPressed == 72)
 	{
@@ -140,17 +140,13 @@ void Filter::f_KeyPressed(int keyPressed)
 	else
 		return;
 
-	;
 	PrintScreen(f_Filtration());
 }
 
 //Метод применяет включенные фильтры к выводимой странице.
 string& Filter::f_Filtration()
 {
-	//string filterPage = m_screen[m_currentPage];
-	const int currentPageSize = m_screen[m_currentPage].length();
-	char* filterPage = new char[currentPageSize];
-	strcpy_s(filterPage, currentPageSize, m_screen[m_currentPage].c_str());
+	string filterPage = m_screen[m_currentPage];
 
 	if (m_flagCyrillic || m_flagDigit || m_flagLatin || m_flagPunctuation)
 	{
@@ -233,12 +229,6 @@ void Filter::PrintScreen(const string& filterPage)
 {
 	system("cls");
 	cout << filterPage;
-
-	/*int oneScreenSize = m_screen[m_numberOfScreens].length();
-	char* oneScreenArr = new char[oneScreenSize]{};
-	m_screen[m_numberOfScreens].copy(oneScreenArr, oneScreenSize);*/
-	// возможно нужно добавить в конец oneScreenArr \0 - "str.copy(test, 4);	test[4] = '\0';"
-	//delete[]oneScreenArr;
 }
 
 // Перегруженный оператор <<. Вывод вектора на экран.

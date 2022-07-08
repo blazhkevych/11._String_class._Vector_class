@@ -25,15 +25,13 @@ class Filter
 	// Заменяет символ латиницы на пробел.
 	static void f_FilterLatin(string& str);
 	// Заменяет символ кириллицы на пробел.
-	static void f_FilterCyrillic(char* filterPage);
+	static void f_FilterCyrillic(string& str);
 
 	bool m_flagPunctuation{ false }; // Фильтр пунктуации вкл/выкл.
 	bool m_flagDigit{ false };		// Фильтр цыфр вкл/выкл.
 	bool m_flagLatin{ false };		// Фильтр латиницы вкл/выкл.
 	bool m_flagCyrillic{ false };	// Фильтр кириллицы вкл/выкл.
 
-	// Обрабатывает нажатые клавиши прокрутки ввер или вниз.
-	void f_KeyPressed(int keyPressed);
 
 	//Метод применяет включенные фильтры к выводимой странице.
 	string& f_Filtration();
@@ -63,7 +61,13 @@ public:
 	friend ostream& operator << (ostream& cout, Filter& f);
 
 	// Вывод одного "экрана" из массива.
-	static void PrintScreen(const string& filterPage);
+	void PrintScreen(const string& filterPage);
+
+	//// Вывод одного "экрана" из массива. // возможно написать отдельный метод для вывода стартового (нулевого экрана из массива)
+	//void PrintStartScreen(const string& filterPage);
+
+	// Обрабатывает нажатые клавиши прокрутки ввер или вниз.
+	void KeyPressed(int keyPressed);
 };
 
 // Перегруженный оператор <<. Вывод вектора на экран.

@@ -95,7 +95,9 @@ int main()
 	filter.ReadFile(fileName);
 	int page{ 0 };
 	filter.PrintScreen(page);
-	//TODO:Дописать кнопки вверх вниз.
+	//TODO:Дописать filterPage засунуть в класс и с ним проводить операции.
+	//TODO:Пройтись по логической цепочке действий от нажатия пользователем кнопки и глянуть что доделал а что еще осталось.
+
 
 	int userMove{ 0 };
 	do
@@ -108,10 +110,10 @@ int main()
 		if (userMove == VK_ESCAPE) // "Escape" - выход из программы.
 			break;
 		if (userMove == 72) // "UP"
-			filter.PrintScreen(userMove);
+			filter.KeyPressed(userMove);
 		else if (userMove == 80) // "DOWN"
 		{
-			filter.PrintScreen(userMove);
+			filter.KeyPressed(userMove);
 		}
 		// Кнопки вкл/выкл фильтров:
 		else if (userMove == 112) // "p" - Фильтр пунктуации вкл/выкл.
