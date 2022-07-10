@@ -4,24 +4,21 @@
 // Является ли символ пунктуацией, если да, возвращает true.
 bool Filter::f_IsPunctuation(const string& str)
 {
-	for (int i = 0; i < str.length(); i++)
+	int i{ 0 };
+	if (
+		str[i] >= (char)33 && str[i] <= (char)47 ||
+		str[i] >= (char)58 && str[i] <= (char)64 ||
+		str[i] >= (char)91 && str[i] <= (char)96 ||
+		str[i] >= (char)123 && str[i] <= (char)126 || // 127 del возможно нужно расширить до 127.
+		str[i] >= (char)128 && str[i] <= (char)169 ||
+		str[i] >= (char)171 && str[i] <= (char)174 ||
+		str[i] >= (char)176 && str[i] <= (char)177 ||
+		str[i] >= (char)181 && str[i] <= (char)183 ||
+		str[i] == (char)185 ||
+		str[i] >= (char)187 && str[i] <= (char)190
+		)
 	{
-		if (
-			str[i] >= (char)33 && str[i] <= (char)48 ||
-			str[i] >= (char)58 && str[i] <= (char)64 ||
-			str[i] >= (char)91 && str[i] <= (char)96 ||
-			str[i] >= (char)123 && str[i] <= (char)126 || // 127 del возможно нужно расширить до 127.
-			str[i] >= (char)128 && str[i] <= (char)169 ||
-			str[i] >= (char)171 && str[i] <= (char)174 ||
-			str[i] >= (char)176 && str[i] <= (char)177 ||
-			str[i] >= (char)181 && str[i] <= (char)183 ||
-			str[i] == (char)185 ||
-			str[i] >= (char)187 && str[i] <= (char)190
-			)
-		{
-			return true;
-		}
-		return false;
+		return true;
 	}
 	return false;
 }
@@ -29,7 +26,7 @@ bool Filter::f_IsPunctuation(const string& str)
 // Является ли символ цифрой, если да, возвращает true.
 bool Filter::f_IsDigit(const string& str)
 {
-	for (int i = 0; i < str.length(); i++)
+	for (int i = 0; i < str.length();)
 	{
 		if (str[i] >= (char)48 && str[i] <= (char)57)
 		{
@@ -43,7 +40,7 @@ bool Filter::f_IsDigit(const string& str)
 // Является ли символ латиницей, если да, возвращает true.
 bool Filter::f_IsLatin(const string& str)
 {
-	for (int i = 0; i < str.length(); i++)
+	for (int i = 0; i < str.length();)
 	{
 		if (
 			str[i] >= (char)65 && str[i] <= (char)90 ||
@@ -60,10 +57,11 @@ bool Filter::f_IsLatin(const string& str)
 // Является ли символ кириллицей, если да, возвращает true.
 bool Filter::f_IsCyrillic(const string& str)
 {
-	for (int i = 0; i < str.length(); i++)
+	for (int i = 0; i < str.length();)
 	{
 		if (
 			str[i] == (char)165 ||
+			str[i] == (char)168 ||
 			str[i] == (char)175 ||
 			str[i] >= (char)178 && str[i] <= (char)180 ||
 			str[i] == (char)184 ||
@@ -81,44 +79,40 @@ bool Filter::f_IsCyrillic(const string& str)
 // Заменяет символ пунктуации на пробел.
 void Filter::f_FilterPunctuation(string& str)
 {
-	//возможно в булевские передавать не весь стринг, а только str[i] и в случае возврата тру
 	for (int i = 0; i < str.length(); i++)
 	{
 		if (f_IsPunctuation(&str[i]))
-			str[i] = ' '; // возможно заменить на replace
+			str[i] = ' '; // Можно заменить на replace.
 	}
 }
 
 // Является ли символ цифрой, если да, возвращает true.
 void Filter::f_FilterDigit(string& str)
 {
-	//возможно в булевские передавать не весь стринг, а только str[i] и в случае возврата тру
 	for (int i = 0; i < str.length(); i++)
 	{
 		if (f_IsDigit(&str[i]))
-			str[i] = ' '; // возможно заменить на replace
+			str[i] = ' '; // Можно заменить на replace.
 	}
 }
 
 // Заменяет символ латиницы на пробел.
 void Filter::f_FilterLatin(string& str)
 {
-	//возможно в булевские передавать не весь стринг, а только str[i] и в случае возврата тру
 	for (int i = 0; i < str.length(); i++)
 	{
 		if (f_IsLatin(&str[i]))
-			str[i] = ' '; // возможно заменить на replace
+			str[i] = ' '; // Можно заменить на replace.
 	}
 }
 
 // Заменяет символ кириллицы на пробел.
 void Filter::f_FilterCyrillic(string& str)
 {
-	//возможно в булевские передавать не весь стринг, а только str[i] и в случае возврата тру
 	for (int i = 0; i < str.length(); i++)
 	{
 		if (f_IsCyrillic(&str[i]))
-			str[i] = ' '; // возможно заменить на replace
+			str[i] = ' '; // Можно заменить на replace.
 	}
 }
 
@@ -128,26 +122,56 @@ void Filter::KeyPressed(int keyPressed)
 	if (keyPressed == 72)
 	{
 		if (m_currentPage > 0)
+		{
 			m_currentPage--;
+			filterPage = m_screen[m_currentPage];
+			f_Filtration();
+			PrintScreen();
+		}
 	}
-	else
-		return;
-	if (keyPressed == 80)
+	else if (keyPressed == 80)
 	{
 		if (m_currentPage < m_numberOfScreens)
+		{
 			m_currentPage++;
+			filterPage = m_screen[m_currentPage];
+			f_Filtration();
+			PrintScreen();
+		}
 	}
-	else
-		return;
-
-	PrintScreen(f_Filtration());
+	else if (keyPressed == 112)
+	{
+		filterPage = m_screen[m_currentPage];
+		on_off_Punctuation();
+		f_Filtration();
+		PrintScreen();
+	}
+	else if (keyPressed == 100)
+	{
+		filterPage = m_screen[m_currentPage];
+		on_off_Digit();
+		f_Filtration();
+		PrintScreen();
+	}
+	else if (keyPressed == 108)
+	{
+		filterPage = m_screen[m_currentPage];
+		on_off_Latin();
+		f_Filtration();
+		PrintScreen();
+	}
+	else if (keyPressed == 99)
+	{
+		filterPage = m_screen[m_currentPage];
+		on_off_Cyrillic();
+		f_Filtration();
+		PrintScreen();
+	}
 }
 
 //Метод применяет включенные фильтры к выводимой странице.
-string& Filter::f_Filtration()
+void Filter::f_Filtration()
 {
-	string filterPage = m_screen[m_currentPage];
-
 	if (m_flagCyrillic || m_flagDigit || m_flagLatin || m_flagPunctuation)
 	{
 		if (m_flagCyrillic)
@@ -159,7 +183,6 @@ string& Filter::f_Filtration()
 		if (m_flagPunctuation)
 			f_FilterPunctuation(filterPage);
 	}
-	return filterPage;
 }
 
 void Filter::on_off_Punctuation()
@@ -204,7 +227,7 @@ void Filter::ReadFile(const char* fileName)
 		perror("Error opening");
 		return;
 	}
-	int lines{ 50 }; // Количество считываемыъ строк.
+	int lines{ 49 }; // Количество считываемыъ строк для записи в итый вектор.
 	string fiftyLines{ "" };
 	char buffer[300]{};
 	while (!feof(f_read))
@@ -217,24 +240,29 @@ void Filter::ReadFile(const char* fileName)
 			fiftyLines += buffer;
 			lines--;
 		}
-		lines = 50;
+		lines = 49;
 		m_screen.Add(fiftyLines);
 		m_numberOfScreens++;
 		fiftyLines.clear();
 	}
 }
 
-// Вывод одного "экрана" из массива.
-void Filter::PrintScreen(const string& filterPage)
+// Вывод "экрана" из массива.
+void Filter::PrintScreen() const
 {
 	system("cls");
 	cout << filterPage;
 }
 
-// Перегруженный оператор <<. Вывод вектора на экран.
-ostream& operator<<(ostream& cout, Filter& f)
+// Вывод "стартового" экрана из массива.
+void Filter::PrintStartScreen()
 {
-	//cout << endl;
+	cout << m_screen[0];
+}
+
+// Перегруженный оператор <<. Вывод вектора на экран.
+ostream& operator<<(ostream& cout, const Filter& f)
+{
 	f.m_screen.Print();
 	return cout;
 }

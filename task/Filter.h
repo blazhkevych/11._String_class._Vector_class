@@ -8,6 +8,7 @@ class Filter
 	Vector<string> m_screen;
 	int m_numberOfScreens{ 0 };
 	int m_currentPage{ 0 };
+	string filterPage;
 
 	// Является ли символ пунктуацией, если да, возвращает true.
 	static bool f_IsPunctuation(const string& str);
@@ -27,22 +28,16 @@ class Filter
 	// Заменяет символ кириллицы на пробел.
 	static void f_FilterCyrillic(string& str);
 
-	bool m_flagPunctuation{ false }; // Фильтр пунктуации вкл/выкл.
-	bool m_flagDigit{ false };		// Фильтр цыфр вкл/выкл.
-	bool m_flagLatin{ false };		// Фильтр латиницы вкл/выкл.
-	bool m_flagCyrillic{ false };	// Фильтр кириллицы вкл/выкл.
-
+	bool m_flagPunctuation{ false };	// Фильтр пунктуации вкл/выкл.
+	bool m_flagDigit{ false };			// Фильтр цыфр вкл/выкл.
+	bool m_flagLatin{ false };			// Фильтр латиницы вкл/выкл.
+	bool m_flagCyrillic{ false };		// Фильтр кириллицы вкл/выкл.
 
 	//Метод применяет включенные фильтры к выводимой странице.
-	string& f_Filtration();
+	void f_Filtration();
 
 public:
-	// Методы-аксессоры:
-	// Инспекторы (позволяют получить значения полей).
-	/*bool getFlagPunctuation() { return m_flagPunctuation; }
-	bool getFlagDigit() { return m_flagDigit; }
-	bool getFlagLatin() { return m_flagLatin; }
-	bool getFlagCyrillic() { return m_flagCyrillic; }*/
+	// Методы-аксессоры:	
 	// Модификаторы (позволяют установить значения полей).
 	void on_off_Punctuation();
 	void on_off_Digit();
@@ -58,17 +53,17 @@ public:
 	void ReadFile(const char* fileName);
 
 	// Перегруженный оператор <<. Вывод вектора на экран.
-	friend ostream& operator << (ostream& cout, Filter& f);
+	friend ostream& operator << (ostream& cout, const Filter& f);
 
-	// Вывод одного "экрана" из массива.
-	void PrintScreen(const string& filterPage);
+	// Вывод "экрана" из массива.
+	void PrintScreen() const;
 
-	//// Вывод одного "экрана" из массива. // возможно написать отдельный метод для вывода стартового (нулевого экрана из массива)
-	//void PrintStartScreen(const string& filterPage);
+	// Вывод "стартового" экрана из массива. 
+	void PrintStartScreen();
 
 	// Обрабатывает нажатые клавиши прокрутки ввер или вниз.
 	void KeyPressed(int keyPressed);
 };
 
 // Перегруженный оператор <<. Вывод вектора на экран.
-ostream& operator<<(ostream& cout, Filter& f);
+ostream& operator<<(ostream& cout, const Filter& f);
